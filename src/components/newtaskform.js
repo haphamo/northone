@@ -6,27 +6,19 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import DatePicker from "./calendar";
+// import DatePicker from "./calendar";
 
-let allTasks = [
-  {taskId: 1,
-    title: "Do Laundry",
-    desc: "Wash and dry clothes",
-    status: "not completed",
-  },
-]
-
-
-console.log('allTasks', allTasks)
 
 const useStyles = makeStyles( ()=> ({
   innerForm: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+  },
+  outerForm: {
+    flex: 1,
+    padding: '0em 1em 0em 1em'
   }
 }));
-
-
 
 export default function NewTaskForm(props) {
   const classes = useStyles()
@@ -34,17 +26,11 @@ export default function NewTaskForm(props) {
   const [task, setTask] = useState("");
   const [desc, setDesc] = useState("");
 
-  const newTask = function(task, desc, status) {
-    allTasks = [...allTasks, {taskId: 2, title: task, 'desc': desc, 'status': status}]
-    console.log(task, desc, status)
-    console.log(allTasks)
-  }
-
   const submitNewTask = evt => {
     
     evt.preventDefault()
     
-    newTask(task, desc, status)
+    props.newTask(task, desc, status)
     
     setTask("")
     setDesc("")
@@ -62,7 +48,7 @@ export default function NewTaskForm(props) {
   };
 
   return (
-    <form onSubmit={submitNewTask}>
+    <form className={classes.outerForm} onSubmit={submitNewTask}>
     <h1>Create New Task</h1>
       <div className={classes.innerForm} >
         <TextField
@@ -93,6 +79,7 @@ export default function NewTaskForm(props) {
             onChange={handleStatusChange}
             row
             required
+            style={{justifyContent: 'space-between'}}
           >
             <FormControlLabel
               value="pending"

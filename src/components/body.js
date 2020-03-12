@@ -13,7 +13,6 @@ export default function Body(){
     <div style={styling}>
       <NewTaskForm />
       
-     
     </div>
   )
 }
