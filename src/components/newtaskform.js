@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
@@ -6,51 +6,104 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import DatePicker from "./calendar"
+import DatePicker from "./calendar";
 
-const useStyles = makeStyles(theme => ({
-  formStyling: {
+let allTasks = [
+  {taskId: 1,
+    title: "Do Laundry",
+    desc: "Wash and dry clothes",
+    status: "not completed",
+  },
+]
+
+
+console.log('allTasks', allTasks)
+
+const useStyles = makeStyles( ()=> ({
+  innerForm: {
     display: "flex",
-    flexDirection: "column",
-    width: "20em"
+    flexDirection: "column"
   }
 }));
 
-export default function NewTaskForm() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState("female");
 
-  const handleChange = event => {
-    setValue(event.target.value);
+
+export default function NewTaskForm(props) {
+  const classes = useStyles()
+  const [status, setStatus] = useState("");
+  const [task, setTask] = useState("");
+  const [desc, setDesc] = useState("");
+
+  const newTask = function(task, desc, status) {
+    allTasks = [...allTasks, {taskId: 2, title: task, 'desc': desc, 'status': status}]
+    console.log(task, desc, status)
+    console.log(allTasks)
+  }
+
+  const submitNewTask = evt => {
+    
+    evt.preventDefault()
+    
+    newTask(task, desc, status)
+    setStatus("pending")
+    setTask("")
+    setDesc("")
+  }
+
+  const handleTaskChange = event => {
+    setTask(event.target.value)
   };
+  const handleDescChange = event => {
+    setDesc(event.target.value)
+  };
+  
+  const handleStatusChange = event => {
+    setStatus(event.target.value)
+  };
+
   return (
-    <form>
-      <div className={classes.formStyling}>
-        <TextField required id="title" label="Title" margin="normal" />
+    <form onSubmit={submitNewTask}>
+    <h1>Create New Task</h1>
+      <div className={classes.innerForm} >
         <TextField
           required
-          id="descriptions"
+          name="Task"
+          id="task"
+          label="Task"
+          margin="normal"
+          value={task}
+          onChange={handleTaskChange}
+        />
+        <TextField
+          required
+          name="Description"
+          id="desc"
           label="Description"
           margin="normal"
+          value={desc}
+          onChange={handleDescChange}
         />
-        <DatePicker />
+        {/* <DatePicker /> */}
         <FormControl component="fieldset">
           <FormLabel component="legend"></FormLabel>
           <RadioGroup
             aria-label="position"
             name="status pending completed"
-            value={value}
-            onChange={handleChange}
-            
+            value={status}
+            onChange={handleStatusChange}
             row
+            
           >
             <FormControlLabel
               value="pending"
+              name="status pending completed"
               control={<Radio color="primary" />}
               label="Pending"
               labelPlacement="bottom"
+              defaultChecked
             />
             <FormControlLabel
+            name="status pending completed"
               value="completed"
               control={<Radio color="primary" />}
               label="Completed"
@@ -58,6 +111,7 @@ export default function NewTaskForm() {
             />
           </RadioGroup>
         </FormControl>
+        <button type="submit">Create New Task</button>
       </div>
     </form>
   );
