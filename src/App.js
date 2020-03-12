@@ -1,9 +1,6 @@
 import React from 'react';
-import { CreateButton } from './components/create.css'
-import NewTaskForm from './components/newtaskform'
+import Body from './components/body'
 import './App.css';
-
-
 
 const headerStyling = {
   display: 'flex',
@@ -18,9 +15,8 @@ const headerStyling = {
 function App() {
   return (
     <div>
-      <header style={headerStyling}>NorthOne To Do List</header>
-      <CreateButton>New Task</CreateButton>
-      <NewTaskForm />
+      <header style={headerStyling}>To Do List</header>
+      <Body />
     </div>
   );
 }

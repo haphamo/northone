@@ -30,7 +30,7 @@ const useStyles = makeStyles( ()=> ({
 
 export default function NewTaskForm(props) {
   const classes = useStyles()
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("pending");
   const [task, setTask] = useState("");
   const [desc, setDesc] = useState("");
 
@@ -45,7 +45,7 @@ export default function NewTaskForm(props) {
     evt.preventDefault()
     
     newTask(task, desc, status)
-    setStatus("pending")
+    
     setTask("")
     setDesc("")
   }
@@ -92,7 +92,7 @@ export default function NewTaskForm(props) {
             value={status}
             onChange={handleStatusChange}
             row
-            
+            required
           >
             <FormControlLabel
               value="pending"
@@ -100,7 +100,7 @@ export default function NewTaskForm(props) {
               control={<Radio color="primary" />}
               label="Pending"
               labelPlacement="bottom"
-              defaultChecked
+              
             />
             <FormControlLabel
             name="status pending completed"
